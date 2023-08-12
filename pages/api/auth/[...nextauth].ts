@@ -11,7 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET!,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -25,14 +25,14 @@ export const authOptions: AuthOptions = {
         email: user.email,
       } as Stripe.RequestOptions);
       await prisma.user.update({
-        where: { id: user.id },
+        where: { id: user.id.toString() },
         data: { stripeCustomerId: stripeUser.id },
       });
     },
   },
   callbacks: {
     async session({ session, user }) {
-      session.user = user;
+      if (user) session = { ...session, user };
       return session;
     },
   },

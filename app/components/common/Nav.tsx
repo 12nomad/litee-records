@@ -81,7 +81,7 @@ const Nav = ({ user }: INavbar) => {
             </Dropdown>
           </div>
         ) : (
-          <Button size="sm" color="dark" onClick={() => signIn()}>
+          <Button size="sm" color="dark" onClick={async () => await signIn()}>
             <AiFillGoogleCircle className="mr-1" />
             <p>Sign in</p>
           </Button>
