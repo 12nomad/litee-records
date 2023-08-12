@@ -1,14 +1,12 @@
-import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth";
 
 import { IUser, IExtendedUser } from "../../interfaces/IUser.interface";
 import { authOptions } from "../../pages/api/auth/[...nextauth]";
 import { BsDisc } from "react-icons/bs";
+import { prisma } from "../../utils/prisma.util";
 import moment from "moment";
 
 export const revalidate = 0;
-
-const prisma = new PrismaClient();
 
 type IAuthUser = (IUser & IExtendedUser) | undefined;
 

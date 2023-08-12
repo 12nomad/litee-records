@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
 import Stripe from "stripe";
 import { getServerSession } from "next-auth";
 
 import { ICartItem } from "../../interfaces/ICartItem.interface";
 import { IExtendedUser, IUser } from "../../interfaces/IUser.interface";
 import { authOptions } from "./auth/[...nextauth]";
+import { prisma } from "../../utils/prisma.util";
 
 interface Body {
   cartItems: ICartItem[];
@@ -15,7 +15,6 @@ interface Body {
 
 type IAuthUser = (IUser & IExtendedUser) | undefined;
 
-const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
 });
