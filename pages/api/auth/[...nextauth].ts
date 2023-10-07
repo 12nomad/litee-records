@@ -1,14 +1,15 @@
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import Stripe from "stripe";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+
 import { prisma } from "../../../utils/prisma.util";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
 });
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET!,
   providers: [
@@ -33,6 +34,9 @@ export const authOptions: AuthOptions = {
     session({ session, user }) {
       return { ...session, user: { ...user } };
     },
+  },
+  session: {
+    strategy: "jwt",
   },
 };
 
